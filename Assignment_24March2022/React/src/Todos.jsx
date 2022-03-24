@@ -3,8 +3,6 @@ import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
 function Todos() {
-  const [edit, setEdit] = useState(false);
-  const [editTodo, setEditTodo] = useState({});
   const [todos, setTodos] = useState([]);
   const getTodos = () => {
     axios
@@ -42,63 +40,26 @@ function Todos() {
       getTodos();
     });
   };
-  const updateTodo = (todo) => {
-    setEdit(true);
-    setEditTodo(todo);
-  };
-  const saveTodo = (event) => {
-    event.preventDefault();
-    const obj = {
-      item: event.target.item.value,
-      status: event.target.status.value,
-    };
-    axios.put(`/todosmysql/${editTodo.id}`, obj).then((res) => {
-      getTodos();
-      setEdit(false);
-      console.log(res.data);
-    });
-  };
+
   return (
-    <div className="container">
-      {edit ? (
-        <div className="col-lg-4 col-md-6 col-sm-10 mx-auto">
-          <h1>Edit Todo</h1>
-          <form onSubmit={saveTodo}>
-            <input
-              type="text"
-              name="item"
-              placeholder="Enter Todo to be updated"
-              className="form-control"
-            />
-            <br />
-            <select name="status" className="form-control">
-              <option value="Complete">Complete</option>
-              <option value="Incomplete">Incomplete</option>
-            </select>
-            <button type="submit">Add Todo</button>
-          </form>
-        </div>
-      ) : (
-        <div className="container-fluid">
-          <div className="col-lg-4 col-md-6 col-sm-10 mx-auto">
-            <h1>Add Todo</h1>
-            <form onSubmit={addTodo}>
-              <input
-                type="text"
-                name="item"
-                placeholder="Enter Todo"
-                className="form-control"
-              />
-              <br />
-              <select name="status" className="form-control">
-                <option value="Complete">Complete</option>
-                <option value="Incomplete">Incomplete</option>
-              </select>
-              <button type="submit">Add Todo</button>
-            </form>
-          </div>
-        </div>
-      )}
+    <div className="container-fluid">
+      <div className="col-lg-4 col-md-6 col-sm-10 mx-auto">
+        <h1>Add Todo</h1>
+        <form onSubmit={addTodo}>
+          <input
+            type="text"
+            name="item"
+            placeholder="Enter Todo"
+            className="form-control"
+          />
+          <br />
+          <select name="status" className="form-control">
+            <option value="Complete">Complete</option>
+            <option value="Incomplete">Incomplete</option>
+          </select>
+          <button type="submit">Add Todo</button>
+        </form>
+      </div>
 
       <div className="text-center">
         <h1>Todos List</h1>
@@ -111,7 +72,6 @@ function Todos() {
               <th>Todo</th>
               <th>Status</th>
               <th>Delete</th>
-              <th>Update</th>
             </tr>
           </thead>
           <tbody>
@@ -122,11 +82,6 @@ function Todos() {
                 <td>
                   <button type="button" onClick={() => deleteTodo(val.id)}>
                     Delete
-                  </button>
-                </td>
-                <td>
-                  <button type="button" onClick={() => updateTodo(val)}>
-                    Edit
                   </button>
                 </td>
               </tr>
