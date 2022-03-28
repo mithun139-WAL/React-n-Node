@@ -69,11 +69,11 @@ function Category() {
             type="text"
             name="name"
             placeholder="Enter Category Name"
-            className="form-control"
+            className="form-control my-2"
           />
           <textarea
             name="description"
-            className="form-control"
+            className="form-control my-2"
             cols="30"
             rows="10"
             placeholder="Enter Category description"
@@ -81,7 +81,7 @@ function Category() {
           <button type="submit">Add Category</button>
         </form>
       </div>
-      <div className="text-center">
+      <div className="text-center my-2">
         <h1>Categories List</h1>
         <button type="button" onClick={() => deleteAll()}>
           Delete all Categories
@@ -127,7 +127,7 @@ function Category() {
             <input
               type="number"
               name="categoryid"
-              placeholder="Enter Category Id"
+              placeholder="Enter Category Id you want to update"
               className="form-control"
               onChange={(e) => {
                 setId(e.target.value);
@@ -137,7 +137,7 @@ function Category() {
               type="text"
               name="updateName"
               className="form-control my-3"
-              placeholder="Enter Product Name"
+              placeholder="Enter Category Name"
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -145,7 +145,7 @@ function Category() {
             <textarea
               name="updatedesc"
               className="form-control my-3"
-              placeholder="Enter Dish Description"
+              placeholder="Enter Category Description"
               onChange={(e) => {
                 setDescription(e.target.value);
               }}

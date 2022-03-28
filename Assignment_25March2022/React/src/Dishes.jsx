@@ -87,16 +87,16 @@ function Dishes() {
             type="text"
             name="name"
             placeholder="Enter Dish Name"
-            className="form-control"
+            className="form-control my-2"
           />
           <textarea
             name="description"
-            className="form-control"
+            className="form-control my-2"
             cols="30"
             rows="10"
             placeholder="Enter Dish description"
           />
-          <select name="category" id="category" className="form-control">
+          <select name="category" id="category" className="form-control my-2">
             {categorydata.map((value) => {
               return <option value={value.category_id}>{value.name}</option>;
             })}
@@ -104,13 +104,13 @@ function Dishes() {
           <input
             type="number"
             name="price"
-            className="form-control"
+            className="form-control my-2"
             placeholder="Enter Dish Price"
           />
           <button type="submit">Add Dish</button>
         </form>
       </div>
-      <div className="text-center">
+      <div className="text-center my-2">
         <h1>Dishes List</h1>
         <button type="button" onClick={() => deleteAll()}>
           Delete all Dishes
@@ -167,7 +167,7 @@ function Dishes() {
               type="text"
               name="updateName"
               className="form-control my-3"
-              placeholder="Enter Product Name"
+              placeholder="Enter Dish Name"
               onChange={(e) => {
                 setName(e.target.value);
               }}
@@ -194,6 +194,7 @@ function Dishes() {
             <input
               type="number"
               name="updatePrice"
+              placeholder="Enter Price"
               className="form-control my-3"
               onChange={(e) => {
                 setPrice(e.target.value);
