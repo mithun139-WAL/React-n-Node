@@ -1,12 +1,21 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable arrow-body-style */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable linebreak-style */
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {Modal, ModalBody, ModalFooter} from 'reactstrap';
 
 function Dishes() {
   const [dishes, setDishes] = useState([]);
   const [categorydata, setCategorydata] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [name, setName] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [category, setCategory] = useState(null);
+  const [id, setId] = useState(null);
+  const [price, setPrice] = useState(null);
+  const toggle = () => setModal(!modal);
   const getDish = () => {
     axios
       .get('/dishesmysql')
@@ -43,8 +52,22 @@ function Dishes() {
       console.log(res.data);
     });
   };
-  const deleteDish = (id) => {
-    axios.delete(`/dishesmysql/${id}`).then((res) => {
+  const updateDish = () => {
+    axios
+      .put(`/dishesmysql/${id}`, {
+        dish_id: id,
+        name: name,
+        description: description,
+        categories_id: category,
+        price: price,
+      })
+      .then((res) => {
+        console.log(res.data);
+        getDish();
+      });
+  };
+  const deleteDish = (dishId) => {
+    axios.delete(`/dishesmysql/${dishId}`).then((res) => {
       console.log(res.data);
       getDish();
     });
@@ -100,6 +123,7 @@ function Dishes() {
               <th>Description</th>
               <th>Price</th>
               <th>CategoryId</th>
+              <th>Update</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -112,6 +136,11 @@ function Dishes() {
                 <td>{val.price}</td>
                 <td>{val.categories_id}</td>
                 <td>
+                  <button type="button" onClick={toggle}>
+                    Update
+                  </button>
+                </td>
+                <td>
                   <button type="button" onClick={() => deleteDish(val.dish_id)}>
                     Delete
                   </button>
@@ -121,6 +150,63 @@ function Dishes() {
           </tbody>
         </table>
       </div>
+      <Modal isOpen={modal} toggle={toggle} modalTransition={{timeout: 1000}}>
+        <ModalBody>
+          <h1 className="text-center">Update Dish</h1>
+          <div>
+            <input
+              type="number"
+              name="dishid"
+              placeholder="Enter Dish Id"
+              className="form-control"
+              onChange={(e) => {
+                setId(e.target.value);
+              }}
+            />
+            <input
+              type="text"
+              name="updateName"
+              className="form-control my-3"
+              placeholder="Enter Product Name"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+            <textarea
+              name="updatedesc"
+              className="form-control my-3"
+              placeholder="Enter Dish Description"
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
+            <select
+              name="updatecategory"
+              className="form-control my-2"
+              onChange={(e) => {
+                setCategory(e.target.value);
+              }}
+            >
+              {categorydata.map((value) => {
+                return <option value={value.category_id}>{value.name}</option>;
+              })}
+            </select>
+            <input
+              type="number"
+              name="updatePrice"
+              className="form-control my-3"
+              onChange={(e) => {
+                setPrice(e.target.value);
+              }}
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button type="submit" className="btn btn-info" onClick={updateDish}>
+            Update
+          </button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }

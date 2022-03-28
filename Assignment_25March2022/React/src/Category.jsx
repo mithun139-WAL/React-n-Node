@@ -1,10 +1,17 @@
+/* eslint-disable object-shorthand */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable linebreak-style */
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import {Modal, ModalBody, ModalFooter} from 'reactstrap';
 
 function Category() {
   const [categories, setCategories] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [name, setName] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [id, setId] = useState(null);
+  const toggle = () => setModal(!modal);
   const getCategories = () => {
     axios
       .get('/categoriesmysql')
@@ -29,8 +36,20 @@ function Category() {
       console.log(res.data);
     });
   };
-  const deleteCategory = (category_id) => {
-    axios.delete(`/categoriesmysql/${category_id}`).then((res) => {
+  const updateCategory = () => {
+    axios
+      .put(`/categoriesmysql/${id}`, {
+        category_id: id,
+        name: name,
+        description: description,
+      })
+      .then((res) => {
+        console.log(res.data);
+        getCategories();
+      });
+  };
+  const deleteCategory = (id) => {
+    axios.delete(`/categoriesmysql/${id}`).then((res) => {
       console.log(res.data);
       getCategories();
     });
@@ -73,6 +92,7 @@ function Category() {
               <th>CategoryId</th>
               <th>CategoryName</th>
               <th>Description</th>
+              <th>Update</th>
               <th>Delete</th>
             </tr>
           </thead>
@@ -82,6 +102,11 @@ function Category() {
                 <td>{val.category_id}</td>
                 <td>{val.name}</td>
                 <td>{val.description}</td>
+                <td>
+                  <button type="button" onClick={toggle}>
+                    Update
+                  </button>
+                </td>
                 <td>
                   <button
                     type="button"
@@ -95,6 +120,48 @@ function Category() {
           </tbody>
         </table>
       </div>
+      <Modal isOpen={modal} toggle={toggle} modalTransition={{timeout: 1000}}>
+        <ModalBody>
+          <h1 className="text-center">Update Dish</h1>
+          <div>
+            <input
+              type="number"
+              name="categoryid"
+              placeholder="Enter Category Id"
+              className="form-control"
+              onChange={(e) => {
+                setId(e.target.value);
+              }}
+            />
+            <input
+              type="text"
+              name="updateName"
+              className="form-control my-3"
+              placeholder="Enter Product Name"
+              onChange={(e) => {
+                setName(e.target.value);
+              }}
+            />
+            <textarea
+              name="updatedesc"
+              className="form-control my-3"
+              placeholder="Enter Dish Description"
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
+            />
+          </div>
+        </ModalBody>
+        <ModalFooter>
+          <button
+            type="submit"
+            className="btn btn-info"
+            onClick={updateCategory}
+          >
+            Update
+          </button>
+        </ModalFooter>
+      </Modal>
     </div>
   );
 }
