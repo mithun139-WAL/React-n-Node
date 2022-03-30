@@ -31,13 +31,6 @@ router.get('/createfile/:filename/:filecontent', function (req, res) {
     }
   });
 });
-router.get('/readdirectory', function (req, res) {
-  fs.readdir(__dirname, (err, files) => {
-    if (err) res.json(err);
-    console.log(files);
-    res.send(files);
-  });
-});
 router.get('/addcontent/:fileName/:filecontent', function (req, res) {
   const filePath = path.join(__dirname, '../files', req.params.fileName);
   fs.appendFile(filePath, req.params.filecontent, (err) => {
