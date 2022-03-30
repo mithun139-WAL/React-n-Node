@@ -69,14 +69,11 @@ router.get('/createfolder/:foldername', function (req, res) {
     }
   });
 });
-router.get('/delete/:filename', function (req, res) {
-  const filePath = path.join('../files/', req.params.filename);
-  console.log(filePath);
+router.get('/deletefile/:filename', function (req, res) {
+  const filePath = path.join(__dirname, '../files', req.params.filename);
   fs.unlink(filePath, (err) => {
-    if (err) {
-      res.json(err);
-    }
-    res.send('File deleted');
+    if (err) res.json(err);
+    res.send(`file with name ${req.params.filename} is deleted`);
   });
 });
 router.get('/readfile/:fileName', function (req, res) {

@@ -10,18 +10,21 @@ import '../App.css';
 export default function FolderContents() {
   const [content, setContent] = useState([]);
 
+  useEffect(() => {
+    axios
+      .get('/filemanagement/foldercontents')
+      .then((res) => setContent(res.data))
+      .catch((e) => console.log(e));
+  }, []);
   function getData() {
     axios
       .get('/filemanagement/foldercontents')
       .then((res) => setContent(res.data))
       .catch((e) => console.log(e));
   }
-  useEffect(() => {
-    getData();
-  }, []);
   function deleteFile(val) {
     axios
-      .get(`/filemanagement/delete/${val}`)
+      .get(`/filemanagement/deletefile/${val}`)
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
     getData();
