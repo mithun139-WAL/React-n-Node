@@ -1,3 +1,4 @@
+/* eslint-disable operator-linebreak */
 /* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable linebreak-style */
 import React, {useState} from 'react';
@@ -25,50 +26,76 @@ export default function UserRegistration() {
         console.log(error);
       });
   };
+  // const checkUsername = () => {
+  //   console.log(username);
+  //   axios
+  //     .get('/user/getusername/alpha123')
+  //     .then((response) => {
+  //       // if (res.data.status === 0) {
+  //       //   console.log('No username');
+  //       // } else {
+  //       //   console.log('Username found');
+  //       // }
+  //       console.log(response);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       alert('Error while checking username');
+  //     });
+  // };
+
+  // const checkEmail = () => {
+  //   axios
+  //     .get(`/user/getemail/${email}`)
+  //     .then((res) => {
+  //       if (res.data.status === 0) {
+  //         console.log('Email id found');
+  //       } else {
+  //         console.log('Email id not found');
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       alert('Error while checking email');
+  //     });
+  // };
   const checkUsername = () => {
-    console.log(username);
-    if (username.length === 0) {
-      alert('Enter username to check');
-      return;
-    }
-
     axios
-      .get(`/users/getusername/${username}`)
+      .get(`/user/getusername/${username}`)
       .then((res) => {
-        if (res.data.status === 0) {
-          console.log('No username');
+        console.log(res.data);
+        if (res.data.status === 1) {
+          document.getElementById('usernametext').textContent = '';
+          document.getElementById('usernameerror').textContent =
+            res.data.debug_data;
         } else {
-          console.log('Username found');
+          document.getElementById('usernameerror').textContent = '';
+          document.getElementById('usernametext').textContent =
+            res.data.debug_data;
         }
       })
-      .catch((err) => {
-        console.log(err);
-        alert('Error while checking username');
-      });
+      .catch((e) => console.log(e));
   };
-
   const checkEmail = () => {
-    if (email.length === 0) {
-      alert('Enter email to check');
-      return;
-    }
     axios
-      .get(`/users/checkemail/${email}`)
+      .get(`/user/getemail/${email}`)
       .then((res) => {
-        if (res.data.status === 0) {
-          console.log('Email id found');
+        console.log(res.data);
+        if (res.data.status === 1) {
+          document.getElementById('emailtext').textContent = '';
+          document.getElementById('emailerror').textContent =
+            res.data.debug_data;
         } else {
-          console.log('Email id not found');
+          document.getElementById('emailerror').textContent = '';
+          document.getElementById('emailtext').textContent =
+            res.data.debug_data;
         }
       })
-      .catch((err) => {
-        console.log(err);
-        alert('Error while checking email');
-      });
+      .catch((e) => console.log(e));
   };
 
   return (
-    <div className="col-lg-4 col-md-8 mx-auto my-5">
+    <div className="container col-lg-4 col-md-8 mx-auto my-5">
       <h1>Registration</h1>
       <form onSubmit={addUser}>
         <input
@@ -81,6 +108,10 @@ export default function UserRegistration() {
             setUsername(event.target.value);
           }}
         />
+        <p>
+          <small className="text-success" id="usernametext" />
+          <small className="text-danger" id="usernameerror" />
+        </p>
         <div>
           <button
             onClick={checkUsername}
@@ -100,6 +131,10 @@ export default function UserRegistration() {
             setEmail(event.target.value);
           }}
         />
+        <p>
+          <small className="text-danger" id="emailerror" />
+          <small className="text-success" id="emailtext" />
+        </p>
         <div>
           <button
             onClick={checkEmail}
