@@ -51,42 +51,20 @@ exports.deleteUserWithId = (req, res) => {
 };
 
 exports.getUsername = async (req, res) => {
-  const username = req.params.username;
-  console.log(username);
-  let userOb = await User.findOne({username});
-  console.log(userOb);
-  let flag = false;
-  try {
-    if (username === userOb.username) {
-      flag = true;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-  if (flag) {
-    res.status(400).json({status: 1, debug_data: 'Username found'});
+  const user = await User.findOne({username: req.params.username});
+  if (user) {
+    res.json({status: 0, debug_data: 'username already exists'});
   } else {
-    res.status(400).json({status: 0, debug_data: 'Username not found'});
+    res.json({status: 1, msg: "username doesn't exist"});
   }
 };
-
 exports.getEmail = async (req, res) => {
-  const email = req.params.email;
-  console.log(email);
-  let userOb = await User.findOne({email});
-  console.log(userOb);
-  let flag = false;
-  try {
-    if (email === userOb.email) {
-      flag = true;
-    }
-  } catch (err) {
-    console.log(err);
-  }
-  if (flag) {
-    res.status(400).json({status: 1, debug_data: 'email id found'});
+  const user = await User.findOne({email: req.params.email});
+  console.log(user);
+  if (user) {
+    res.json({status: 0, debug_data: 'email already exists'});
   } else {
-    res.status(400).json({status: 0, debug_data: 'email id not found'});
+    res.json({status: 1, msg: "email doesn't exist"});
   }
 };
 
