@@ -42,7 +42,7 @@ exports.login = function (req, res) {
                   email: email,
                 },
               };
-              jwt.sign(payload, 'token', {expiresIn: 1200}, (err, token) => {
+              jwt.sign(payload, 'secret_string', {expiresIn: 1200}, (err, token) => {
                 if (err) {
                   throw err;
                   res.json({
