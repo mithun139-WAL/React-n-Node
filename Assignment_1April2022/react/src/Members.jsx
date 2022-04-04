@@ -8,13 +8,14 @@ import {useNavigate} from 'react-router-dom';
 export default function Members() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  let storedToken = localStorage.getItem('token');
-  storedToken = storedToken.replace('"', '');
+  let token = localStorage.getItem('token');
+  token = token.replace('"', '');
+  token = token.replace('"', '');
   useEffect(() => {
     axios
       .get('/users/', {
         headers: {
-          token: storedToken,
+          token: token,
         },
       })
       .then((res) => setData(res.data))
