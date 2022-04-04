@@ -47,8 +47,8 @@ export default function Registration() {
           required
         />
         <input type="date" name="dob" className="form-control my-3" required />
-        <div className="text-center">
-          <button className="btn btn-primary">Register</button>
+        <div className="text-center my-5">
+          <button className="btn btn-primary col-12">Register</button>
         </div>
       </form>
     </div>
