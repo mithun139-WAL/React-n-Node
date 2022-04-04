@@ -8,13 +8,14 @@ import {useNavigate} from 'react-router-dom';
 export default function Members() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  let storedToken = localStorage.getItem('token');
-  storedToken = storedToken.replace('"', '');
+  let token = localStorage.getItem('token');
+  token = token.replace('"', '');
+  token = token.replace('"', '');
   useEffect(() => {
     axios
       .get('/users/', {
         headers: {
-          token: storedToken,
+          token: token,
         },
       })
       .then((res) => setData(res.data))
@@ -22,9 +23,9 @@ export default function Members() {
   }, []);
 
   return (
-    <div>
-      <table>
-        <thead>
+    <div className="container col-lg-8 col-md-10 mx-auto my-5">
+      <table className="text-center">
+        <thead className="bg-dark text-primary">
           <tr>
             <th>Id</th>
             <th>Name</th>
@@ -40,7 +41,6 @@ export default function Members() {
                 <td>{val.id}</td>
                 <td>{val.name}</td>
                 <td>{val.email}</td>
-                <td>{val.age}</td>
                 <td>{val.dob}</td>
                 <td>
                   <button

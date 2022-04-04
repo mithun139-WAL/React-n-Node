@@ -12,14 +12,14 @@ export default function EditUser() {
   const [dob, setDob] = useState();
   const urlParams = useParams();
   const {id} = urlParams;
-  let storedToken = localStorage.getItem('token');
-  storedToken = storedToken.replace('"', '');
-  storedToken = storedToken.replace('"', '');
+  let token = localStorage.getItem('token');
+  token = token.replace('"', '');
+  token = token.replace('"', '');
   useEffect(() => {
     axios
       .get(`/users/${urlParams.id}`, {
         headers: {
-          token: storedToken,
+          token: token,
         },
       })
       .then((res) => {
@@ -80,9 +80,9 @@ export default function EditUser() {
           value={dob}
           onChange={(e) => setDob(e.target.value)}
         />
-        <div className="text-center upSpace">
-          <button type="submit" className="btn btn-info">
-            Save
+        <div className="text-center">
+          <button type="submit" className="btn btn-info col-12">
+            Modify
           </button>
         </div>
       </form>

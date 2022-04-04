@@ -42,7 +42,7 @@ exports.login = function (req, res) {
                   email: email,
                 },
               };
-              jwt.sign(payload, 'token', {expiresIn: 1200}, (err, token) => {
+              jwt.sign(payload, 'secret_string', {expiresIn: 1200}, (err, token) => {
                 if (err) {
                   throw err;
                   res.json({
@@ -71,30 +71,7 @@ exports.addUser = function (req, res) {
   } catch (err) {
     console.log(err);
   }
-  const emailCheck = `SELECT * FROM users WHERE email="${email}"`;
-  connector.query(emailCheck, function (err, results, fields) {
-    if (err) {
-      res.json(err);
-    } else {
-      if (results.length > 0) {
-        res.json({status: 0, debug_msg: 'Email exists'});
-      } else {
-        const sql = `INSERT INTO users(name, email, password, dob) VALUES(?, ?, ?, ?);`;
-        connector.query(
-          sql,
-          [name, email, password, dob],
-          function (err, results, fields) {
-            if (err) {
-              res.json(err);
-            } else {
-              res.json(results);
-            }
-          }
-        );
-      }
-    }
-  });
-};
+
 exports.getUsers = [
   authenticationMiddleware,
   function (req, res) {
