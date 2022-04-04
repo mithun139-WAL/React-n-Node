@@ -12,14 +12,14 @@ export default function EditUser() {
   const [dob, setDob] = useState();
   const urlParams = useParams();
   const {id} = urlParams;
-  let storedToken = localStorage.getItem('token');
-  storedToken = storedToken.replace('"', '');
-  storedToken = storedToken.replace('"', '');
+  let token = localStorage.getItem('token');
+  token = token.replace('"', '');
+  token = token.replace('"', '');
   useEffect(() => {
     axios
       .get(`/users/${urlParams.id}`, {
         headers: {
-          token: storedToken,
+          token: token,
         },
       })
       .then((res) => {
