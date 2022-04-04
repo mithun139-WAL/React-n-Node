@@ -23,7 +23,6 @@ export default function Login() {
           throw Error(res.data.debug_data);
         } else {
           setToken(res.data.token);
-          document.querySelector('.logout').style.visibility = 'visible';
           navigate('/members');
         }
       })
